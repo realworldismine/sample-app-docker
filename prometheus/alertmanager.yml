@@ -1,0 +1,14 @@
+global:
+  smtp_smarthost: 'smtp.gmail.com:587'
+  smtp_from: 'xinguifeng3@gmail.com'
+  smtp_auth_username: 'xinguifeng3@gmail.com'
+  smtp_auth_password: 'ndfdezhukrftnqox'
+
+route:
+  receiver: email-alerts
+
+receivers:
+  - name: email-alerts
+    email_configs:
+      - to: 'oniamano@gmail.com' 
+

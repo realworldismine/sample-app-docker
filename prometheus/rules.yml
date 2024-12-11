@@ -1,0 +1,30 @@
+groups:
+  - name: container_alerts
+    rules:
+      - alert: HighCPUUsage
+        expr: rate(container_cpu_usage_seconds_total{name=~".+"}[1m]) * 100 > 50
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "High CPU Usage on {{ $labels.name }}"
+          description: "Container {{ $labels.name }} CPU usage is above 50%."
+
+      - alert: SlowHttpResponse
+        expr: histogram_quantile(0.99, rate(http_request_duration_seconds_bucket{container=~".+"}[1m])) > 2.5
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Slow HTTP Response on {{ $labels.container }}"
+          description: "HTTP response time is above 5 seconds for container {{ $labels.container }}."
+
+      - alert: ContainerDown
+        expr: up{container=~".+"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Container {{ $labels.container }} is down"
+          description: "The container {{ $labels.container }} is not running."
+

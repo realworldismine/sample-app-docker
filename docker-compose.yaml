@@ -6,6 +6,7 @@ services:
       - "5001:5001"
     networks:
       - microservices-network
+    restart: unless-stopped
 
   post-service:
     image: onikaze/sample-app-docker-post:latest
@@ -15,6 +16,7 @@ services:
       - microservices-network
     depends_on:
       - user-service
+    restart: unless-stopped
 
   notification-service:
     image: onikaze/sample-app-docker-notification:latest
@@ -30,7 +32,71 @@ services:
       EMAIL_SERVER_FROM: ${EMAIL_SERVER_FROM}
       EMAIL_SERVER_KEY: ${EMAIL_SERVER_KEY}
       EMAIL_SERVER_PORT: ${EMAIL_SERVER_PORT}
-            
+    restart: unless-stopped
+
+  cadvisor:
+    image: google/cadvisor:latest
+    container_name: cadvisor
+    networks:
+      - microservices-network
+    ports:
+      - "8080:8080"
+    volumes:
+      - /:/rootfs:ro
+      - /var/run:/var/run:ro
+      - /sys:/sys:ro
+      - /var/lib/docker/:/var/lib/docker:ro
+    restart: unless-stopped
+
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: node-exporter
+    networks:
+      - microservices-network
+    ports:
+      - "9100:9100"
+    command:
+      - '--path.rootfs=/host'
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus 
+    ports:
+      - "9090:9090"
+    networks:
+      - microservices-network
+    links:
+      - cadvisor:cadvisor
+      - node-exporter:node-exporter
+      - alertmanager:alertmanager
+    volumes:
+      - ./prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
+      - ./prometheus/rules.yml:/etc/prometheus/rules.yml
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--web.enable-lifecycle'
+    restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    volumes:
+      - ./prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+    networks:
+      - microservices-network
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - microservices-network
+    restart: unless-stopped
 
 networks:
   microservices-network:
