@@ -8,10 +8,10 @@ WORKDIR /app
 COPY . /app
 
 # Create a virtual environment and activate it
-RUN apt-get update && rm -rf /var/lib/apt/lists/*
-RUN python -m venv /app/venv
+RUN apt-get update && apt-get install -y tzdata python3-venv && rm -rf /var/lib/apt/lists/*
+RUN python3 -m venv /app/venv
 
-# Upgrade pip and install wheel
+# Upgrade pip
 RUN /app/venv/bin/pip install --upgrade pip
 
 # Install any needed packages specified in requirements.txt using the virtual environment

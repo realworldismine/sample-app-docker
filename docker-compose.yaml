@@ -1,0 +1,37 @@
+version: '3.8'
+services:
+  user-service:
+    image: onikaze/sample-app-docker-user:latest
+    ports:
+      - "5001:5001"
+    networks:
+      - microservices-network
+
+  post-service:
+    image: onikaze/sample-app-docker-post:latest
+    ports:
+      - "5002:5002"
+    networks:
+      - microservices-network
+    depends_on:
+      - user-service
+
+  notification-service:
+    image: onikaze/sample-app-docker-notification:latest
+    ports:
+      - "5003:5003"
+    networks:
+      - microservices-network
+    depends_on:
+      - user-service
+      - post-service
+    environment:
+      EMAIL_SERVER_ADDRESS: ${EMAIL_SERVER_ADDRESS}
+      EMAIL_SERVER_FROM: ${EMAIL_SERVER_FROM}
+      EMAIL_SERVER_KEY: ${EMAIL_SERVER_KEY}
+      EMAIL_SERVER_PORT: ${EMAIL_SERVER_PORT}
+            
+
+networks:
+  microservices-network:
+    driver: bridge
