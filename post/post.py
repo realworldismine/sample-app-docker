@@ -50,8 +50,8 @@ def post():
 
     # Notification 서비스 호출
     headers = {'Content-Type': 'application/json; charset=utf-8'}
-    #requests.post(f'http://notification-service:5003/notify', data=post)
-    requests.post('http://127.0.0.1:5003/notify', json=post, headers=headers)
+    requests.post(f'http://notification-service:5003/notify', data=post)
+    #requests.post('http://127.0.0.1:5003/notify', json=post, headers=headers)
     return jsonify({'id': post_id}), 201
 
 @app.route('/post/<int:id>', methods=['GET'])
