@@ -4,6 +4,9 @@ services:
     image: onikaze/sample-app-docker-user:latest
     ports:
       - "5001:5001"
+    volumes:
+      - ./log:/app/log
+      - ./db:/app/db
     networks:
       - microservices-network
     restart: unless-stopped
@@ -12,6 +15,9 @@ services:
     image: onikaze/sample-app-docker-post:latest
     ports:
       - "5002:5002"
+    volumes:
+      - ./log:/app/log
+      - ./db:/app/db
     networks:
       - microservices-network
     depends_on:
@@ -22,6 +28,9 @@ services:
     image: onikaze/sample-app-docker-notification:latest
     ports:
       - "5003:5003"
+    volumes:
+      - ./log:/app/log
+      - ./db:/app/db
     networks:
       - microservices-network
     depends_on:

@@ -22,5 +22,5 @@ ENV TZ=Asia/Seoul
 RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TC > /etc/timezone
 
 # Ensure the cleanup runs before the main application
-ENTRYPOINT ["sh", "-c", "/app/venv/bin/python notification.py"]
+ENTRYPOINT ["sh", "-c", "/app/venv/bin/python -u notification.py"]
 
