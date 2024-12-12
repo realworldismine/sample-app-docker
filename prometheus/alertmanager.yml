@@ -1,0 +1,14 @@
+global:
+  smtp_smarthost: 
+  smtp_from: 
+  smtp_auth_username: 
+  smtp_auth_password: 
+
+route:
+  receiver: 
+
+receivers:
+  - name: 
+    email_configs:
+      - to: 
+

@@ -92,7 +92,7 @@ services:
     container_name: alertmanager
     volumes:
       - ./prometheus/alertmanager.template.yml:/etc/alertmanager/alertmanager.template.yml
-      - ./prometheus/alertmanager.template.yml:/etc/alertmanager/alertmanager.template.yml
+      - ./prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml
     networks:
       - microservices-network
     command:
