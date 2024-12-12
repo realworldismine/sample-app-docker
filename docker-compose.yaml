@@ -91,11 +91,22 @@ services:
     image: prom/alertmanager:latest
     container_name: alertmanager
     volumes:
-      - ./prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml
+      - ./prometheus/alertmanager.template.yml:/etc/alertmanager/alertmanager.template.yml
+      - ./prometheus/alertmanager.template.yml:/etc/alertmanager/alertmanager.template.yml
     networks:
       - microservices-network
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
+    environment:
+      EMAIL_SERVER_ADDRESS: ${EMAIL_SERVER_ADDRESS}
+      EMAIL_SERVER_FROM: ${EMAIL_SERVER_FROM}
+      EMAIL_SERVER_KEY: ${EMAIL_SERVER_KEY}
+      EMAIL_SERVER_PORT: ${EMAIL_SERVER_PORT}
+    command: >
+      /bin/sh -c "
+      envsubst < /etc/alertmanager/alertmanager.template.yml > /etc/alertmanager/alertmanager.yml &&
+      /bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml
+      "
     restart: unless-stopped
 
   grafana:

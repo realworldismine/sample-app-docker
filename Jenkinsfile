@@ -1,3 +1,5 @@
+
+
 pipeline {
     agent any
 
@@ -6,6 +8,12 @@ pipeline {
     }
 	
     stages {
+        stage('Git Clone') {
+            steps {
+                // Get some code from a GitHub repository
+                git branch: 'main', credentialsId: 'realworldismine', url: 'https://www.github.com/realworldismine/sample-app-docker'
+            }
+        }
         stage('Docker Image') {
             steps {
                 dir('./user') {
@@ -23,10 +31,10 @@ pipeline {
             steps {            
                 sh '''
                 echo "   
-EMAIL_SERVER_ADDRESS=smtp.gmail.com
-EMAIL_SERVER_FROM=xinguifeng3@gmail.com
-EMAIL_SERVER_KEY=ndfdezhukrftnqox
-EMAIL_SERVER_PORT=587
+EMAIL_SERVER_ADDRESS=
+EMAIL_SERVER_FROM=
+EMAIL_SERVER_KEY=
+EMAIL_SERVER_PORT=
                 " > .env
                 '''
                 sh 'sudo docker-compose up -d'    

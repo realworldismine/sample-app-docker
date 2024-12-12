@@ -2,7 +2,7 @@ global:
   smtp_smarthost: 'smtp.gmail.com:587'
   smtp_from: 'xinguifeng3@gmail.com'
   smtp_auth_username: 'xinguifeng3@gmail.com'
-  smtp_auth_password: 'ndfdezhukrftnqox'
+  smtp_auth_password: ''
 
 route:
   receiver: email-alerts
