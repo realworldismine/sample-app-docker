@@ -92,11 +92,17 @@ services:
     container_name: alertmanager
     volumes:
       - ./prometheus/alertmanager.template.yml:/etc/alertmanager/alertmanager.template.yml
-      - ./prometheus/alertmanager.yml:/etc/alertmanager/alertmanager.yml
     networks:
       - microservices-network
-    command:
-      - "--config.file=/etc/alertmanager/alertmanager.yml && sed -e 's|\\${EMAIL_SERVER_ADDRESS}|${EMAIL_SERVER_ADDRESS}|g' -e 's|\\${EMAIL_SERVER_FROM}|${EMAIL_SERVER_FROM}|g' -e 's|\\${EMAIL_SERVER_KEY}|${EMAIL_SERVER_KEY}|g' -e 's|\\${EMAIL_SERVER_PORT}|${EMAIL_SERVER_PORT}|g' /etc/alertmanager/alertmanager.template.yml > /etc/alertmanager/alertmanager.yml"
+    command: >
+      /bin/sh -c "
+      sed -e 's|\\${EMAIL_SERVER_ADDRESS}|${EMAIL_SERVER_ADDRESS}|g' \
+          -e 's|\\${EMAIL_SERVER_FROM}|${EMAIL_SERVER_FROM}|g' \
+          -e 's|\\${EMAIL_SERVER_KEY}|${EMAIL_SERVER_KEY}|g' \
+          -e 's|\\${EMAIL_SERVER_PORT}|${EMAIL_SERVER_PORT}|g' \
+          /etc/alertmanager/alertmanager.template.yml > /etc/alertmanager/alertmanager.yml &&
+      /bin/alertmanager --config.file=/etc/alertmanager/alertmanager.yml
+      "
     environment:
       EMAIL_SERVER_ADDRESS: ${EMAIL_SERVER_ADDRESS}
       EMAIL_SERVER_FROM: ${EMAIL_SERVER_FROM}
