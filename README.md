@@ -1,2 +1,2 @@
 # sample-app-docker
-- Github Hook Test6
+- Github Hook Test
