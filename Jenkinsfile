@@ -15,10 +15,16 @@ pipeline {
                     // sh 'sudo docker build -t onikaze/sample-app-docker-user:latest .'
                 }
                 dir('./post') {
-                    sh 'sudo docker build -t onikaze/sample-app-docker-post:latest .'
+                    script {
+                        docker.build "onikaze/sample-app-docker-post:latest"
+                    }
+                    // sh 'sudo docker build -t onikaze/sample-app-docker-post:latest .'
                 }
                 dir('./notification') {
-                    sh 'sudo docker build -t onikaze/sample-app-docker-notification:latest .'
+                    script {
+                        docker.build "onikaze/sample-app-docker-notification:latest"
+                    }
+                    // sh 'sudo docker build -t onikaze/sample-app-docker-notification:latest .'
                 }
             }
         }
