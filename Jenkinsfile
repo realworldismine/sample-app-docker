@@ -10,17 +10,17 @@ pipeline {
             steps {
                 dir('./user') {
                     script {
-                        docker.build "onikaze/sample-app-docker-user:latest"
+                        docker.build("onikaze/sample-app-docker-user:latest")
                     }
                 }
                 dir('./post') {
                     script {
-                        docker.build "onikaze/sample-app-docker-post:latest"
+                        docker.build("onikaze/sample-app-docker-post:latest")
                     }
                 }
                 dir('./notification') {
                     script {
-                        docker.build "onikaze/sample-app-docker-notification:latest"
+                        docker.build("onikaze/sample-app-docker-notification:latest")
                     }
                 }
             }
