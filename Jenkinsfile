@@ -9,19 +9,13 @@ pipeline {
         stage('Docker Image') {
             steps {
                 dir('./user') {
-                    script {
-                        docker.build("onikaze/sample-app-docker-user:latest")
-                    }
+                    sh 'sudo docker build -t onikaze/sample-app-docker-user:latest .'
                 }
                 dir('./post') {
-                    script {
-                        docker.build("onikaze/sample-app-docker-post:latest")
-                    }
+                    sh 'sudo docker build -t onikaze/sample-app-docker-post:latest .'
                 }
                 dir('./notification') {
-                    script {
-                        docker.build("onikaze/sample-app-docker-notification:latest")
-                    }
+                    sh 'sudo docker build -t onikaze/sample-app-docker-notification:latest .'
                 }
             }
         }
