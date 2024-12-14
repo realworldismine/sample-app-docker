@@ -36,11 +36,6 @@ services:
     depends_on:
       - user-service
       - post-service
-    environment:
-      EMAIL_SERVER_ADDRESS: ${EMAIL_SERVER_ADDRESS}
-      EMAIL_SERVER_FROM: ${EMAIL_SERVER_FROM}
-      EMAIL_SERVER_KEY: ${EMAIL_SERVER_KEY}
-      EMAIL_SERVER_PORT: ${EMAIL_SERVER_PORT}
     restart: unless-stopped
 
   cadvisor:
@@ -97,11 +92,6 @@ services:
       - microservices-network
     command:
       - '--config.file=/etc/alertmanager/alertmanager.yml'
-    environment:
-      EMAIL_SERVER_ADDRESS: ${EMAIL_SERVER_ADDRESS}
-      EMAIL_SERVER_FROM: ${EMAIL_SERVER_FROM}
-      EMAIL_SERVER_KEY: ${EMAIL_SERVER_KEY}
-      EMAIL_SERVER_PORT: ${EMAIL_SERVER_PORT}
     restart: unless-stopped
 
   grafana:
