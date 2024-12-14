@@ -101,7 +101,7 @@ sudo chmod 666 /var/run/docker.sock
 - Upon build completion, Dockerfiles are generated, and containers are created and started using Docker Compose
 - Postman is used to verify API calls after startup
 - Logs and alerts are checked
-- Dashboard visualization is verified using Grafana 
+- Dashboard visualization is verified using Grafana
 
 
 
